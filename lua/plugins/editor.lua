@@ -6,7 +6,7 @@ return {
 		opts = {},
 	},
 	{
-		"telescope.nvim",
+		"nvim-telescope/telescope.nvim",
 		priority = 1000,
 		dependencies = {
 			{
@@ -97,7 +97,7 @@ return {
 
 			opts = opts or {}
 			opts.defaults = opts.defaults or {}
-			
+
 			opts.defaults = vim.tbl_deep_extend("force", opts.defaults, {
 				wrap_results = true,
 				layout_strategy = "horizontal",
