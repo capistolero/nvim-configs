@@ -128,16 +128,22 @@ return {
       { ";tS", function() require("neotest").run.stop() end, desc = "Stop" },
     },
 	},
-	"barrett-ruth/live-server.nvim",
-	config = function()
-		require("live-server").setup({
-			port = 8080, -- Change to your preferred port
-			open_browser = true, -- Automatically open the browser
-			filetypes = { "html", "css", "javascript" }, -- Define filetypes for which the server should run
-			live_reload = true, -- Enable live reload on file changes
-			watch_dir = nil,
-		})
-		vim.api.nvim_set_keymap("n", "<leader>o", ":LiveServerToggle<CR>", { noremap = true, silent = true })
-	end,
-	{},
+	{
+		"barrett-ruth/live-server.nvim",
+		config = function()
+			require("live-server").setup({
+				port = 8080,
+				open_browser = true,
+				filetypes = { "html", "css", "javascript" },
+				live_reload = true,
+				watch_dir = nil,
+			})
+			vim.keymap.set(
+				"n",
+				"<leader>o",
+				":LiveServerToggle<CR>",
+				{ noremap = true, silent = true, desc = "Toggle Live Server" }
+			)
+		end,
+	},
 }
