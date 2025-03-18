@@ -128,6 +128,7 @@ return {
       { ";tS", function() require("neotest").run.stop() end, desc = "Stop" },
     },
 	},
+	-- Live Server configuration.
 	{
 		"barrett-ruth/live-server.nvim",
 		config = function()
