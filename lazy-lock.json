@@ -7,6 +7,7 @@
   "nvim-cmp": { "branch": "main", "commit": "b5311ab3ed9c846b585c0c15b7559be131ec4be9" },
   "nvim-web-devicons": { "branch": "master", "commit": "19d6211c78169e78bab372b585b6fb17ad974e82" },
   "oil.nvim": { "branch": "master", "commit": "08c2bce8b00fd780fb7999dbffdf7cd174e896fb" },
-  "rose-pine": { "branch": "main", "commit": "83c66bcadbcaf344cf0af1a41d8bd92255116b66" },
+  "rose-pine": { "branch": "main", "commit": "f93360149e9ed4df8677fbb07c7231ea0fd03b97" },
+  "snacks.nvim": { "branch": "main", "commit": "bc0630e43be5699bb94dadc302c0d21615421d93" },
   "solarized-osaka.nvim": { "branch": "main", "commit": "f796014c14b1910e08d42cc2077fef34f08e0295" }
 }
