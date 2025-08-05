@@ -14,7 +14,7 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(
     {
         { import = "Capistolero.plugins" },
-        
+        { import = "Capistolero.plugins.lsp" },
     },
     {
         checker = {
