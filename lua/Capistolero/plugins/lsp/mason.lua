@@ -45,6 +45,7 @@ return {
                 "emmet_language_server",
                 -- "eslint",
                 "marksman",
+                "luau_lsp",
             },
 
         })
@@ -57,6 +58,7 @@ return {
                 "pylint",
                 "clangd",
                 "clang-format",
+                "codelldb",
                 "denols",
                 -- { 'eslint_d', version = '13.1.2' },
             },
