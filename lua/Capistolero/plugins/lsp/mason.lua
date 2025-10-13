@@ -36,18 +36,17 @@ return {
             -- servers for mason to install
             ensure_installed = {
                 "lua_ls",
-                -- "ts_ls", currently using a ts plugin
+                "ts_ls", -- currently using a ts plugin
                 "html",
                 "cssls",
                 "tailwindcss",
                 "gopls",
+                "angularls",
                 "emmet_ls",
                 "emmet_language_server",
                 -- "eslint",
                 "marksman",
-                "luau_lsp",
             },
-
         })
 
         mason_tool_installer.setup({

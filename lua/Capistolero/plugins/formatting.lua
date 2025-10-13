@@ -37,8 +37,6 @@ return {
 				graphql = { "prettier" },
 				liquid = { "prettier" },
 				lua = { "stylua" },
-				cpp = { "clang-format" },
-                gdscript = {"gdformat", "gdlint"},
 				-- python = { "black" },
 				markdown = { "prettier", "markdown-toc" },
 				-- ["markdown.mdx"] = { "prettier", "markdownlint", "markdown-toc" },
