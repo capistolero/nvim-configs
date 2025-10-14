@@ -113,7 +113,7 @@ return {
 				"--header-insertion=iwyu",
 			},
 		})
-		      vim.lsp.enable("clangd")
+		vim.lsp.enable("clangd")
 
 		-- emmet_language_server
 
@@ -190,5 +190,12 @@ return {
 			},
 		})
 		vim.lsp.enable("gopls")
+
+		vim.lsp.config("pyright", {
+			filetypes = {
+				"python",
+			},
+		})
+        vim.lsp.enable("pyright")
 	end,
 }

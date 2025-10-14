@@ -40,6 +40,7 @@ return {
 				"html",
 				"cssls",
 				"tailwindcss",
+				"pyright",
 				"gopls",
 				"angularls",
 				"emmet_ls",

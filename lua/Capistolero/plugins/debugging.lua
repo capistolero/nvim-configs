@@ -13,6 +13,7 @@ return {
 			"nvim-neotest/nvim-nio",
 			"rcarriga/nvim-dap-ui",
 			"leoluz/nvim-dap-go",
+			"mfussenegger/nvim-dap-python",
 		},
 
 		config = function()
