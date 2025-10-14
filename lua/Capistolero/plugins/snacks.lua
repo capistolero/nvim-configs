@@ -127,7 +127,7 @@ return {
                     { section = "startup" },
                     {
                         section = "terminal",
-                        cmd = "ascii-image-converter ~/Pictures/profile.png -C -c",
+                        cmd = "ascii-image-converter ~/Pictures/image.png -C -c",
                         random = 15,
                         pane = 2,
                         indent = 15,

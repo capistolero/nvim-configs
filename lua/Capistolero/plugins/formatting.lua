@@ -23,8 +23,14 @@ return {
 						return #diag > 0
 					end,
 				},
+                ["clang-format"] = {
+                    command = "clang-format",
+                    args = { "--style={BasedOnStyle: LLVM, IndentWidth: 4}" }
+                },
 			},
 			formatters_by_ft = {
+                cpp = { "clang-format" },
+                c = { "clang-format" },
 				javascript = { "biome-check" },
 				typescript = { "biome-check" },
 				javascriptreact = { "biome-check" },

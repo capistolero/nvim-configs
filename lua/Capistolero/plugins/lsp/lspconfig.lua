@@ -113,7 +113,7 @@ return {
 				"--header-insertion=iwyu",
 			},
 		})
-        vim.lsp.enable("clangd")
+		      vim.lsp.enable("clangd")
 
 		-- emmet_language_server
 
