@@ -191,11 +191,27 @@ return {
 		})
 		vim.lsp.enable("gopls")
 
+		-- python stuff
 		vim.lsp.config("pyright", {
 			filetypes = {
 				"python",
 			},
 		})
-        vim.lsp.enable("pyright")
+		vim.lsp.enable("pyright")
+
+		-- tailwindcss
+		vim.lsp.config("tailwindcss", {
+			filetypes = {
+				"html",
+				"css",
+				"scss",
+				"javascript",
+				"javascriptreact",
+				"typescript",
+				"typescriptreact",
+				"vue",
+			},
+		})
+		vim.lsp.enable("tailwindcss", true)
 	end,
 }
