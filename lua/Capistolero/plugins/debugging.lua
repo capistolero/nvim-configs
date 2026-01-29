@@ -38,6 +38,14 @@ return {
 
 			vim.keymap.set("n", "<Leader>db", dap.toggle_breakpoint, {})
 			vim.keymap.set("n", "<Leader>dc", dap.continue, {})
+
+			--rustaceanvim
+			vim.keymap.set(
+				"n",
+				"<Leader>dt",
+				"<cmd>lua vim.cmd('RustLsp testables')<CR>",
+				{ desc = "Debugger testables" }
+			)
 		end,
 	},
 }
