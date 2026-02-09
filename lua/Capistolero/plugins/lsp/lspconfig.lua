@@ -115,6 +115,19 @@ return {
 		})
 		vim.lsp.enable("clangd")
 
+		-- html
+		vim.lsp.config("html", {
+			capabilities = capabilities,
+			init_options = {
+				configurationSection = { "html", "css", "javascript" },
+				embeddedLanguages = {
+					css = true,
+					javascript = true,
+				},
+				provideFormatter = true,
+			},
+		})
+        vim.lsp.enable("html")
 		-- emmet_language_server
 
 		vim.lsp.config("emmet_language_server", {

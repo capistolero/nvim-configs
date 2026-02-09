@@ -36,7 +36,7 @@ return {
 				javascriptreact = { "biome-check" },
 				typescriptreact = { "biome-check" },
 				css = { "biome-check" },
-				html = { "biome-check" },
+				html = { "prettier" },
 				svelte = { "prettier" },
 				json = { "prettier" },
 				yaml = { "prettier" },
