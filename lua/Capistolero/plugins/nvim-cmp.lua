@@ -1,10 +1,11 @@
 return {
     "hrsh7th/nvim-cmp",
-    event = "InsertEnter",
+    event = { "InsertEnter", "CmdlineEnter" },
     branch = "main", -- fix for deprecated functions coming in nvim 0.13
     dependencies = {
         "hrsh7th/cmp-buffer", -- source for text in buffer
         "hrsh7th/cmp-path", -- source for file system paths
+        "hrsh7th/cmp-cmdline",
         "f3fora/cmp-spell",
         {
             "L3MON4D3/LuaSnip",
@@ -17,14 +18,12 @@ return {
         "rafamadriz/friendly-snippets", -- snippets
         "nvim-treesitter/nvim-treesitter",
         "onsails/lspkind.nvim", -- vs-code pictograms
-        "roobert/tailwindcss-colorizer-cmp.nvim",
     },
     config = function()
         local cmp = require("cmp")
         -- local luasnip = require("luasnip")
         local has_luasnip, luasnip = pcall(require, 'luasnip')
         local lspkind = require("lspkind")
-        local colorizer = require("tailwindcss-colorizer-cmp").formatter
 
         local rhs = function(keys)
             return vim.api.nvim_replace_termcodes(keys, true, true, true)
@@ -203,10 +202,25 @@ return {
         -- loads vscode style snippets from installed plugins (e.g. friendly-snippets)
         require("luasnip.loaders.from_vscode").lazy_load()
 
+        cmp.setup.cmdline(":", {
+            mapping = cmp.mapping.preset.cmdline(),
+            sources = cmp.config.sources({
+                { name = "path" },
+                { name = "cmdline" },
+                {
+                    name = 'buffer' ,
+                    option = {
+                        max_item_count = 30,
+                        keyword_length = 3,
+                    },
+                },
+            }),
+        })
+
         cmp.setup({
             experimental = {
                 -- HACK: experimenting with ghost text
-                -- look at `toggle_ghost_text()` function below.
+                -- `toggle_ghost_text()` function (no longer needed)
                 ghost_text = false,
             },
             completion = {
@@ -230,12 +244,10 @@ return {
             -- autocompletion sources
             sources = cmp.config.sources({
                 { name = "luasnip" }, -- snippets
-                { name = "crates" }, --rust
                 { name = "lazydev" },
                 { name = "nvim_lsp"},
                 { name = "buffer" }, -- text within current buffer
                 { name = "path" }, -- file system paths
-                { name = "tailwindcss-colorizer-cmp" },
                 { name = "spell", -- for markdown spellchecks completions
                     option = {
                         enable_in_context = function()
@@ -245,15 +257,6 @@ return {
                     },
                 },
             }),
-            -- mapping = cmp.mapping.preset.insert({
-            --     ["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
-            --     ["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion
-            --     ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-            --     ["<C-f>"] = cmp.mapping.scroll_docs(4),
-            --     ["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
-            --     ["<C-e>"] = cmp.mapping.abort(), -- close completion window
-            --     ["<CR>"] = cmp.mapping.confirm({ select = false }),
-            -- }),
 
             -- NOTE: ! Experimenting with Customized Mappings ! --
             mapping = cmp.mapping.preset.insert({
@@ -284,14 +287,6 @@ return {
                     end
                 end, { 'i', 's' }),
 
-                ['<CR>'] = cmp.mapping(function(fallback)
-                    if cmp.visible() then
-                        local entry = cmp.get_selected_entry()
-                        confirm(entry)
-                    else
-                        fallback()
-                    end
-                end, { 'i', 's' }),
 
                 ['<S-Tab>'] = cmp.mapping(function(fallback)
                     if cmp.visible() then
@@ -331,7 +326,6 @@ return {
                     -- Add custom lsp_kinds icons
                     vim_item.kind = string.format('%s %s', lsp_kinds[vim_item.kind] or '', vim_item.kind)
 
-
                     -- add menu tags (e.g., [Buffer], [LSP])
                     vim_item.menu = ({
                         buffer = "[Buffer]",
@@ -341,57 +335,53 @@ return {
                         latex_symbols = "[LaTeX]",
                     })[entry.source.name]
 
-                    -- use lspkind and tailwindcss-colorizer-cmp for additional formatting
+                    -- use lspkind for additional formatting
                     vim_item = lspkind.cmp_format({
                         maxwidth = 25,
                         ellipsis_char = "...",
                     })(entry, vim_item)
 
+                    -- Tailwind color handling using native (menu hl for fg-only square)
                     if entry.source.name == "nvim_lsp" then
-                        vim_item = colorizer(entry, vim_item)
-                    end
+                        local entryItem = entry:get_completion_item()
+                        local color = entryItem.documentation
 
+                        if color and type(color) == "string" and color:match "^#%x%x%x%x%x%x$" then
+                            local hl = "tailwind_hex_" .. color:sub(2)  -- hl per color
+
+                            if not vim.api.nvim_get_hl(0, { name = hl }).fg then
+                              vim.api.nvim_set_hl(0, hl, { fg = color })
+                            end
+
+                            vim_item.menu = " " .. (vim_item.menu or "")  -- prepend colored square to source tag
+                            vim_item.menu_hl_group = hl
+                        end
+                    end
                     return vim_item
                 end,
-                -- format = lspkind.cmp_format({
-                --         maxwidth = 30,
-                --         ellipsis_char = "...",
-                --         before = require("tailwindcss-colorizer-cmp").formatter
-                -- }),
-                -- format = require("tailwindcss-colorizer-cmp").formatter
             },
         })
 
-        -- NOTE: Added Ghost text stuff
+        -- NOTE: Ghost text stuff
         -- Only show ghost text at word boundaries, not inside keywords. Based on idea
         -- from: https://github.com/hrsh7th/nvim-cmp/issues/2035#issuecomment-2347186210
 
-        -- local config = require('cmp.config')
-        -- local toggle_ghost_text = function()
-        --     if vim.api.nvim_get_mode().mode ~= 'i' then
-        --         return
-        --     end
-        --
-        --     local cursor_column = vim.fn.col('.')
-        --     local current_line_contents = vim.fn.getline('.')
-        --     local character_after_cursor = current_line_contents:sub(cursor_column, cursor_column)
-        --
-        --     local should_enable_ghost_text = character_after_cursor == '' or vim.fn.match(character_after_cursor, [[\k]]) == -1
-        --
-        --     local current = config.get().experimental.ghost_text
-        --     if current ~= should_enable_ghost_text then
-        --         config.set_global({
-        --             experimental = {
-        --                 ghost_text = should_enable_ghost_text,
-        --             },
-        --         })
-        --     end
-        -- end
-        --
         -- vim.api.nvim_create_autocmd({ 'InsertEnter', 'CursorMovedI' }, {
-        --     callback = toggle_ghost_text,
+        --     callback = function()
+        --         if vim.api.nvim_get_mode().mode ~= 'i' then return end
+
+        --         local cursor_col = vim.fn.col('.')
+        --         local line = vim.fn.getline('.')
+        --         local char_after = line:sub(cursor_col, cursor_col)
+
+        --         local should_show = char_after == '' or vim.fn.match(char_after, [[\k]]) == -1
+
+        --         require('cmp.config').set_global({
+        --             experimental = { ghost_text = should_show }
+        --         })
+        --     end,
         -- })
-        -- ! Ghost text stuff ! -- 
+        -- ! Ghost text stuff ! --
 
     end,
 }

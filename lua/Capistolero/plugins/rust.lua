@@ -23,9 +23,9 @@ return {
 		config = function()
 			require("crates").setup({
 				completion = {
-					cmp = {
-						enabled = true,
-					},
+                    crates = {
+                        enabled = true
+                    },
 				},
 			})
 		end,
