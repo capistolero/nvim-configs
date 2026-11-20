@@ -36,6 +36,12 @@ return {
 					"vue",
 					"svelte",
 					"astro",
+					"conf",
+					conf = {
+						parsers = {
+							hex = true,
+						},
+					},
 
 					toml = {
 						parsers = {
