@@ -1,3 +1,4 @@
-require("Capistolero.core")
-require("Capistolero.lazy")
-require("current-theme")
+require("vim._core.ui2").enable({})
+
+require("options")
+require("keymaps")
